@@ -1,0 +1,61 @@
+Analytics For Balzaccontest:
+(SELECT SUM(points) AS TotalPoints FROM games;)
+Total Points from All Players - 3099925
+
+(SELECT first_name, last_name, MAX(points) AS MostPoints FROM games GROUP BY first_name, last_name ORDER BY MostPoints DESC LIMIT 1;)
+Player with the Most Points in a Single Game - (maureen | hurley | 3125)
+
+(SELECT AVG(guesses) AS AverageGuesses FROM games;)
+Average Number of Guesses - 6
+
+(SELECT DAYNAME(timestamp) AS DayOfWeek, COUNT(*) AS NumberOfGames
+FROM games
+GROUP BY DAYNAME(timestamp)
+ORDER BY NumberOfGames DESC
+LIMIT 1;)
+Most Popular Day to Play - Friday
+
+(SELECT 
+    DAYNAME(timestamp) AS DayOfWeek,
+    CONCAT(
+        CAST(FLOOR(AVG(HOUR(timestamp)) % 12) AS UNSIGNED),
+        ':',
+        LPAD(CAST(ROUND((AVG(HOUR(timestamp)) - FLOOR(AVG(HOUR(timestamp)))) * 60) AS UNSIGNED), 2, '0'),
+        IF(AVG(HOUR(timestamp)) >= 12, ' PM', ' AM')
+    ) AS AverageHour
+FROM games
+GROUP BY DAYNAME(timestamp)
+ORDER BY DayOfWeek;
+)
+
+Most popular times each day of the week to play:
+Monday - 0:20 PM
+Tuesday - 1:13 PM
+Wednesday - 11:60 AM
+Thursday - 1:55 AM
+Friday - 11:40 AM
+Saturday - 11:52 AM
+Sunday - 11:36 AM
+
+(SELECT COUNT(*) AS NumberOfPlayersWithRepeatedVisits
+FROM players
+WHERE visits > 1;)
+Repeated Visits From Winners - 229
+
+
+SELECT AVG(wins) AS AverageWins, AVG(losses) AS AverageLosses FROM players;
+AverageWins (from repeat winners)
+2.9167
+
+AverageLosses (from repeat winners)
+0.0144
+
+SELECT COUNT(DISTINCT id) AS TotalUniqueSiteVisitors FROM games;
+Total Unique Games: 3000
+
+SELECT SUM(wins) AS TotalWins, SUM(losses) AS TotalLosses FROM players;
+Total Wins / Losses -
+
+Average Game Duration - 6 minutes
+
+
